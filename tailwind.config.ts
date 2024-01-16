@@ -11,6 +11,13 @@ const config: Config = {
 			colors: {
 				"base-white": "#fff",
 				"primary-primary-default": "#14b1b9",
+				"surface-surface-secondary": "#e9ebf0",
+				"accent-color": "#000",
+				"primary-600": "#14b1b9",
+				"gray-700": "#354154",
+				"gray-300": "#d1d6de",
+				"gray-400": "#a2abba",
+				"gray-500": "#667085",
 				gray: "#101828",
 				whitesmoke: "#eceeeb",
 			},
@@ -21,6 +28,8 @@ const config: Config = {
 			},
 		},
 		fontSize: {
+			sm: "0.88rem",
+			base: "1rem",
 			xl: "1.25rem",
 			inherit: "inherit",
 		},
