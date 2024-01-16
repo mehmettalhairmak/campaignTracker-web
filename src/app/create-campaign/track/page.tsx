@@ -7,7 +7,7 @@ function Track() {
 	return (
 		<div className="flex flex-1 bg-base-white w-full h-full flex-col text-left text-[1rem] text-gray1 font-alata">
 			{/* Header */}
-			<CreateCampaignHeader />
+			<CreateCampaignHeader currentPage="Parçan" />
 
 			<section className="flex justify-center mt-[5.31rem] mx-[9.75rem]">
 				<div className="flex flex-col">
