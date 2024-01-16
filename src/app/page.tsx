@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import CreateCampaignButton from "@/components/create-campaign-button";
 import MainHeader from "@/components/main-header";
 
 import React from "react";
@@ -8,7 +8,7 @@ function Home() {
 		<main className="flex h-full w-full flex-col">
 			<MainHeader />
 			<section className="flex justify-center items-center my-[5.5rem]">
-				<Button />
+				<CreateCampaignButton />
 			</section>
 		</main>
 	);
