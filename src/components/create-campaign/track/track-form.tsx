@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-function InputForm() {
+function TrackForm() {
 	const [trackInput, setTrackInput] = useState<string | null>("");
 	const [checkboxStatus, setCheckboxStatus] = useState<boolean>(false);
 
@@ -45,4 +45,4 @@ function InputForm() {
 	);
 }
 
-export default InputForm;
+export default TrackForm;
