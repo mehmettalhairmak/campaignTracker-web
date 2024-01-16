@@ -1,6 +1,4 @@
-"use client";
-
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 
 function CreateCampaignHeader({
 	currentPage,
@@ -14,7 +12,7 @@ function CreateCampaignHeader({
 			let spacing;
 
 			if (currentPage === value) {
-				spacing = "[0.5rem]";
+				spacing = "[1rem]";
 			} else if (pages.indexOf(currentPage) > index) {
 				spacing = "[2rem]";
 			} else {
@@ -42,7 +40,7 @@ function CreateCampaignHeader({
 		<div className="w-full h-[6.87rem] flex flex-col">
 			<div className="flex flex-1 flex-row">
 				<div className="flex w-1/3 items-center justify-center gap-[0.44rem]">
-					<div className="tracking-[-0.04em] text-center text-[1.25rem] text-gray-400">
+					<div className="tracking-[-0.04em] text-center text-[1.25rem]">
 						Kampanya Oluştur
 					</div>
 				</div>
