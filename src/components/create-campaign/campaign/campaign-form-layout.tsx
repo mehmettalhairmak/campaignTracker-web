@@ -10,7 +10,7 @@ import useCampaignStore from "@/zustand/campaign";
 
 function CampaignFormLayout() {
 	const { region } = useRegionStore();
-	const { setCampaign, section } = useCampaignStore();
+	const { setCampaign, section, setCampaignDate } = useCampaignStore();
 
 	const [totalCampaigns, setTotalCampaigns] = useState<Campaign[]>([]);
 	const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
@@ -68,11 +68,20 @@ function CampaignFormLayout() {
 
 	useEffect(() => {
 		if (selectedCampaign !== null) {
-			setCampaign(selectedCampaign.id);
+			setCampaign(selectedCampaign);
 		} else {
 			setCampaign(null);
 		}
 	}, [selectedCampaign]);
+
+	useEffect(() => {
+		if (selectedCampaignDate !== null) {
+			setCampaignDate(selectedCampaignDate);
+		} else {
+			console.log("null");
+			setCampaignDate(null);
+		}
+	}, [selectedCampaignDate]);
 
 	if (section === "campaign_select") {
 		return (
