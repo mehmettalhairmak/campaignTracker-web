@@ -1,9 +1,14 @@
+"use client";
+
+import React from "react";
 import CreateCampaignHeader from "@/components/create-campaign/header";
 import TrackForm from "@/components/create-campaign/track/track-form";
-import Button from "@/components/create-campaign/button";
-import React from "react";
+import NavigationButton from "@/components/create-campaign/navigation-button";
+import useTrackStore from "@/zustand/track";
 
 function Track() {
+	const { track } = useTrackStore();
+
 	return (
 		<div className="flex flex-1 bg-base-white w-full h-full flex-col text-left text-[1rem] text-gray1 font-alata">
 			{/* Header */}
@@ -14,8 +19,15 @@ function Track() {
 					<TrackForm />
 
 					<div className="flex flex-row justify-end mt-[2.6rem] gap-x-[0.63rem]">
-						<Button title="Geri Dön" bgColor="bg-surface-surface-secondary" />
-						<Button title="Devam Et" bgColor="bg-primary-600" />
+						<NavigationButton
+							title="Geri Dön"
+							bgColor="bg-surface-surface-secondary"
+						/>
+						<NavigationButton
+							title="Devam Et"
+							bgColor="bg-primary-600"
+							disabled={track === null ? true : false}
+						/>
 					</div>
 				</div>
 			</section>

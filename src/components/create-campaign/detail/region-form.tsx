@@ -1,4 +1,5 @@
 import React from "react";
+import RegionCheckboxForm from "./region-checkbox-form";
 
 function RegionForm() {
 	return (
@@ -12,16 +13,7 @@ function RegionForm() {
 						Kampanyayı yayınlamak istediğin bölgeyi seç.
 					</div>
 				</div>
-				<div className="w-[73rem] flex flex-row items-start justify-start gap-[1.25rem] text-gray-900">
-					<input
-						placeholder="Türkiye"
-						className="rounded-lg bg-primary-25 box-border w-[34.13rem] overflow-hidden shrink-0 flex flex-row items-center justify-start py-[0.5rem] px-[0.75rem] border-[1px] border-solid border-gray-300 focus:border-primary-600 focus:outline-none"
-					/>
-					<input
-						placeholder="Global"
-						className="rounded-lg bg-base-white box-border w-[37.63rem] overflow-hidden shrink-0 flex flex-row items-start justify-start py-[0.5rem] pr-[0.75rem] pl-[0.5rem] border-[1px] border-solid border-gray-300 focus:border-primary-600 focus:outline-none"
-					/>
-				</div>
+				<RegionCheckboxForm />
 			</div>
 		</>
 	);

@@ -1,9 +1,8 @@
-import Button from "@/components/create-campaign/button";
-import CampaignCard from "@/components/create-campaign/campaign/campaign-card";
+import NavigationButton from "@/components/create-campaign/navigation-button";
 import CampaignFormLayout from "@/components/create-campaign/campaign/campaign-form-layout";
-import StartDateCard from "@/components/create-campaign/campaign/start-date-card";
 import CreateCampaignHeader from "@/components/create-campaign/header";
 import React from "react";
+import NavigationForm from "@/components/create-campaign/campaign/navigation-form";
 
 function Campaign() {
 	return (
@@ -14,10 +13,7 @@ function Campaign() {
 				<div className="flex flex-col">
 					<CampaignFormLayout />
 
-					<div className="flex flex-row justify-end mt-[2.6rem] gap-x-[0.63rem]">
-						<Button title="Geri Dön" bgColor="bg-surface-surface-secondary" />
-						<Button title="Devam Et" bgColor="bg-primary-600" />
-					</div>
+					<NavigationForm />
 				</div>
 			</section>
 		</div>
