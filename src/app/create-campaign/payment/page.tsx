@@ -19,13 +19,13 @@ function Payment() {
 					</div>
 					<div className="self-stretch flex flex-row items-start justify-start gap-[6rem] text-[0.88rem] text-gray-700">
 						<OrderSummary />
-						<div className="rounded-3xl box-border w-[25rem] h-[24.63rem] overflow-hidden shrink-0 flex flex-col items-center justify-start text-gray-500 border-[1px] border-solid border-gray-200">
+						<div className="rounded-3xl box-border w-[25rem] overflow-hidden shrink-0 flex flex-col items-center justify-start text-gray-500 border-[1px] border-solid border-gray-200">
 							<div className="self-stretch flex flex-col items-start justify-start py-[1rem] px-[1.5rem]">
 								<div className="leading-[1.25rem] font-medium">
 									Kampanya özeti
 								</div>
 							</div>
-							<div className="self-stretch box-border h-[25.81rem] flex flex-col items-start justify-start p-[1.5rem] gap-[1.5rem] text-[1rem] text-gray-900 border-t-[1px] border-solid border-gray-200">
+							<div className="self-stretch box-border flex flex-col items-start justify-start p-[1.5rem] gap-[1.5rem] text-[1rem] text-gray-900 border-t-[1px] border-solid border-gray-200">
 								<OrderCard />
 								<PriceCard />
 								<PaymentButton />

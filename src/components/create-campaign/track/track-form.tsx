@@ -72,6 +72,14 @@ function TrackForm() {
 		}
 	}, [trackValue]);
 
+	useEffect(() => {
+		if (checkboxStatus) {
+			setTrack("NULL");
+		} else if (checkboxStatus === false && trackValue === null) {
+			setTrack(null);
+		}
+	}, [checkboxStatus]);
+
 	//* Checkbox Handler
 	const checkboxOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setCheckboxStatus(event.target.checked);

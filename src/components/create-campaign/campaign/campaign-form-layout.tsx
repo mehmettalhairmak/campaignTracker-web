@@ -40,7 +40,6 @@ function CampaignFormLayout() {
 		});
 
 		return () => {
-			setCampaign(null);
 			setTotalCampaigns([]);
 			setSelectedCampaign(null);
 		};
@@ -78,7 +77,6 @@ function CampaignFormLayout() {
 		if (selectedCampaignDate !== null) {
 			setCampaignDate(selectedCampaignDate);
 		} else {
-			console.log("null");
 			setCampaignDate(null);
 		}
 	}, [selectedCampaignDate]);

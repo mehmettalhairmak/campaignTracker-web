@@ -1,3 +1,4 @@
+import { formatDate } from "@/helpers/dateFormatter";
 import { CampaignDate } from "@/models/CampaignModel";
 import React, { InputHTMLAttributes } from "react";
 
@@ -12,36 +13,6 @@ function CampaignDateCard({
 	defaultChecked: boolean;
 	onChange: InputHTMLAttributes<HTMLInputElement>["onChange"];
 }) {
-	const formatDate = (dateInput: string) => {
-		const date = new Date(dateInput);
-
-		// Ay isimleri dizisi
-		var monthNames = [
-			"Ocak",
-			"Şubat",
-			"Mart",
-			"Nisan",
-			"Mayıs",
-			"Haziran",
-			"Temmuz",
-			"Ağustos",
-			"Eylül",
-			"Ekim",
-			"Kasım",
-			"Aralık",
-		];
-
-		// Tarih bilgilerini alıp formatlama
-		var day = date.getDate();
-		var month = monthNames[date.getMonth()];
-
-		// Sonuç string'i oluşturma
-		var formattedDate = day + " " + month;
-
-		return formattedDate;
-	};
-
-	//TODO: ""
 	return (
 		<>
 			<div className="self-stretch flex flex-col items-center justify-start gap-[0.75rem] text-primary-600">
