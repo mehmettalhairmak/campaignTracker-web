@@ -2,28 +2,33 @@
 
 import axiosInstance from "@/api";
 import useGenreeStore from "@/zustand/genree";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 function GenreeInputForm() {
 	const { genres, setGenres } = useGenreeStore();
 
+	const pathname = usePathname();
+
 	const [genresState, setGenresState] = useState<
 		{ value: string; label: string }[]
 	>([]);
 
 	useEffect(() => {
-		axiosInstance.get("track-genres").then((response) => {
-			setGenresState(
-				response.data.map((genre: string) => {
-					return {
-						value: genre,
-						label: genre,
-					};
-				})
-			);
-		});
-	}, []);
+		if (genres === null) {
+			axiosInstance.get("track-genres").then((response) => {
+				setGenresState(
+					response.data.map((genre: string) => {
+						return {
+							value: genre,
+							label: genre,
+						};
+					})
+				);
+			});
+		}
+	}, [pathname]);
 
 	return (
 		<div className="self-stretch flex flex-col items-start justify-start gap-[0.75rem] text-center text-[0.88rem] text-gray-400">

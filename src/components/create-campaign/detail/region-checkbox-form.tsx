@@ -1,13 +1,24 @@
 "use client";
 
 import useRegionStore from "@/zustand/region";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function RegionCheckboxForm() {
-	const { setRegion } = useRegionStore();
+	const { region, setRegion } = useRegionStore();
+
+	const pathname = usePathname();
 
 	const [trCheckboxStatus, setTrCheckboxStatus] = useState<boolean>(false);
 	const [usCheckboxStatus, setUsCheckboxStatus] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (region === "TRY") {
+			setTrCheckboxStatus(true);
+		} else if (region === "USD") {
+			setUsCheckboxStatus(true);
+		}
+	}, [pathname]);
 
 	useEffect(() => {
 		if (trCheckboxStatus) {

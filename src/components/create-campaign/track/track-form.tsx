@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axiosInstance from "@/api";
-import { Item, Tracks } from "@/models/TrackModel";
+import { TrackItem, Tracks } from "@/models/TrackModel";
 import useTrackStore from "@/zustand/track";
 import { usePathname } from "next/navigation";
 
@@ -13,6 +13,7 @@ function TrackForm() {
 	const pathname = usePathname();
 
 	const [trackInput, setTrackInput] = useState<string | null>("");
+	const [trackResults, setTrackResults] = useState<TrackItem[] | null>(null);
 	const [checkboxStatus, setCheckboxStatus] = useState<boolean>(false);
 	const [trackOptions, setTrackOptions] = useState<
 		{ value: string; label: string }[]
@@ -24,18 +25,13 @@ function TrackForm() {
 
 	//* Set Track on Page Focus
 	useEffect(() => {
-		if (track !== null) {
-			axiosInstance
-				.get<Item>(`get-on-spotify?id=${track}`)
-				.then((response) => {
-					setTrackValue({
-						value: response.data.id,
-						label: response.data.name,
-					});
-				})
-				.catch((error) => {
-					console.error("Get on spotify error: ", error);
-				});
+		if (track !== null && track !== "NULL") {
+			setTrackValue({
+				value: track.id,
+				label: track.name,
+			});
+		} else if (track === "NULL") {
+			setCheckboxStatus(true);
 		}
 	}, [pathname]);
 
@@ -47,12 +43,15 @@ function TrackForm() {
 			axiosInstance
 				.get<Tracks>(`search-on-spotify?q=${trackInput}`)
 				.then((response) => {
-					const trackItem = response.data.tracks.items.map((item: Item) => {
-						return {
-							value: item.id,
-							label: item.name,
-						};
-					});
+					const trackItem = response.data.tracks.items.map(
+						(item: TrackItem) => {
+							return {
+								value: item.id,
+								label: item.name,
+							};
+						}
+					);
+					setTrackResults(response.data.tracks.items);
 					setTrackOptions([...trackItem]);
 				})
 				.catch((error) => {
@@ -63,8 +62,11 @@ function TrackForm() {
 
 	//* Get Track on Spotify Handler
 	useEffect(() => {
-		if (trackValue !== null) {
-			setTrack(trackValue.value);
+		if (trackValue !== null && trackResults !== null) {
+			const currentTrack = trackResults.find(
+				(track) => track.id === trackValue.value
+			);
+			setTrack(currentTrack!);
 		} else {
 			setTrack("NULL");
 		}
