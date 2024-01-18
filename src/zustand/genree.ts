@@ -1,4 +1,3 @@
-import { Item } from "@/models/TrackModel";
 import { create } from "zustand";
 
 type State = {

@@ -4,7 +4,7 @@ export interface Tracks {
 
 export interface TracksClass {
 	href: string;
-	items: Item[];
+	items: TrackItem[];
 	limit: number;
 	next: string;
 	offset: number;
@@ -12,7 +12,7 @@ export interface TracksClass {
 	total: number;
 }
 
-export interface Item {
+export interface TrackItem {
 	album: Album;
 	artists: Artist[];
 	available_markets: string[];
