@@ -56,6 +56,17 @@ function CampaignFormLayout() {
 	}, [totalCampaigns]);
 
 	useEffect(() => {
+		if (totalCampaignsDate.length > 0) {
+			const highestPricedCampaignDate = totalCampaignsDate.reduce(
+				(prev, current) => {
+					return prev.price > current.price ? prev : current;
+				}
+			);
+			setSelectedCampaignDate(highestPricedCampaignDate);
+		}
+	}, [totalCampaigns]);
+
+	useEffect(() => {
 		if (selectedCampaign !== null) {
 			setCampaign(selectedCampaign.id);
 		} else {
@@ -65,7 +76,7 @@ function CampaignFormLayout() {
 
 	if (section === "campaign_select") {
 		return (
-			<div className="rounded-3xl bg-base-white box-border w-[76rem] overflow-hidden flex flex-col items-start justify-start p-[1.5rem] gap-[1.5rem] border-[1px] border-solid border-surface-surface-secondary ">
+			<div className="rounded-3xl bg-base-white box-border w-[76rem] overflow-hidden flex flex-col items-start justify-start p-[1.5rem] gap-[1.5rem] border-[1px] border-solid border-surface-surface-secondary">
 				<div className="w-[47.5rem] flex flex-col items-start justify-start">
 					<div className="self-stretch relative tracking-[-0.02em] leading-[1.5rem]">
 						Senin için uygun olan paketi seç
@@ -90,7 +101,7 @@ function CampaignFormLayout() {
 		);
 	} else if (section === "campaign_date") {
 		return (
-			<div className="rounded-3xl box-border w-[76rem] h-[21.5rem] overflow-hidden flex flex-col items-center justify-start pt-[1.5rem] px-[1.5rem] pb-[4.06rem] gap-[1.5rem] text-gray-500 font-text-s-regular border-[1px] border-solid border-gray-200">
+			<div className="rounded-3xl bg-base-white box-border w-[76rem] overflow-hidden flex flex-col items-start justify-start p-[1.5rem] gap-[1.5rem] border-[1px] border-solid border-surface-surface-secondary">
 				<div className="self-stretch flex flex-col items-start justify-start gap-[0.25rem]">
 					<div className="relative leading-[1.25rem] font-medium">
 						Güzel seçim! Şimdi kampanya görselini belirle
@@ -99,25 +110,23 @@ function CampaignFormLayout() {
 						Tahmini başlangıç tarihini seç
 					</div>
 				</div>
-				<div className="self-stretch flex flex-col items-center justify-start gap-[0.75rem] text-primary-600">
-					{totalCampaignsDate.map((campaignDate) => {
-						return (
-							<CampaignDateCard
-								key={campaignDate.id}
-								defaultChecked={
-									selectedCampaignDate !== null &&
-									selectedCampaignDate.id === campaignDate.id
-								}
-								campaignDate={campaignDate}
-								checked={
-									selectedCampaignDate !== null &&
-									selectedCampaignDate.id === campaignDate.id
-								}
-								onChange={() => setSelectedCampaignDate(campaignDate)}
-							/>
-						);
-					})}
-				</div>
+				{totalCampaignsDate.map((campaignDate) => {
+					return (
+						<CampaignDateCard
+							key={campaignDate.id}
+							defaultChecked={
+								selectedCampaignDate !== null &&
+								selectedCampaignDate.id === campaignDate.id
+							}
+							campaignDate={campaignDate}
+							checked={
+								selectedCampaignDate !== null &&
+								selectedCampaignDate.id === campaignDate.id
+							}
+							onChange={() => setSelectedCampaignDate(campaignDate)}
+						/>
+					);
+				})}
 			</div>
 		);
 	}
