@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
 import React from "react";
+import { useRouter, usePathname, useParams } from "next/navigation";
 
 function NavigationButton({
 	title,
@@ -16,6 +16,7 @@ function NavigationButton({
 }) {
 	const router = useRouter();
 	const pathname = usePathname();
+	const params = useParams();
 
 	return (
 		<div className="w-[7.88rem] flex flex-col items-start justify-start">
@@ -27,14 +28,14 @@ function NavigationButton({
 					} else {
 						if (title === "Devam Et") {
 							switch (pathname) {
-								case "/create-campaign/track":
-									router.push("/create-campaign/detail");
+								case `/create-campaign/${params.id}/track`:
+									router.push(`/create-campaign/${params.id}/detail`);
 									break;
-								case "/create-campaign/detail":
-									router.push("/create-campaign/campaign");
+								case `/create-campaign/${params.id}/detail`:
+									router.push(`/create-campaign/${params.id}/campaign`);
 									break;
-								case "/create-campaign/campaign":
-									router.push("/create-campaign/payment");
+								case `/create-campaign/${params.id}/campaign`:
+									router.push(`/create-campaign/${params.id}/payment`);
 									break;
 							}
 						} else if (title === "Geri Dön") {

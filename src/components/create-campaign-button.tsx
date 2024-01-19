@@ -18,7 +18,7 @@ export default function CreateCampaignButton() {
 					.get<SpecialCampaign>("create-campaign")
 					.then((response) => {
 						setSpecialCampaign(response.data.data.id);
-						router.push("/create-campaign/track");
+						router.push(`/create-campaign/${response.data.data.id}/track`);
 					})
 					.catch((error) => console.error("create-campaign error", error));
 			}}
