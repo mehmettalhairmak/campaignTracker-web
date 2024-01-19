@@ -13,8 +13,8 @@ export interface TracksClass {
 }
 
 export interface TrackItem {
-	album: Album;
-	artists: Artist[];
+	album: Album | null;
+	artists: Artist[] | null;
 	available_markets: string[];
 	disc_number: number;
 	duration_ms: number;

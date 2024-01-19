@@ -5,7 +5,11 @@ import Select from "react-select";
 import axiosInstance from "@/api";
 import { TrackItem, Tracks } from "@/models/TrackModel";
 import useTrackStore from "@/zustand/track";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import {
+	SpecialCampaign,
+	SpecialCampaignBody,
+} from "@/models/SpecialCampaignModel";
 
 function TrackForm() {
 	const { track, setTrack } = useTrackStore();
@@ -23,15 +27,44 @@ function TrackForm() {
 		label: string;
 	} | null>(null);
 
+	const params = useParams();
+
 	//* Set Track on Page Focus
 	useEffect(() => {
-		if (track !== null && track !== "NULL") {
-			setTrackValue({
-				value: track.id,
-				label: track.name,
-			});
-		} else if (track === "NULL") {
-			setCheckboxStatus(true);
+		if (track === null) {
+			axiosInstance
+				.get<SpecialCampaign>(`get-campaign?id=${params.id}`)
+				.then((response) => {
+					if (
+						response.data.data.track_id !== "" &&
+						response.data.data.track_id !== "NULL"
+					) {
+						axiosInstance
+							.get<TrackItem>(
+								`get-on-spotify?id=${response.data.data.track_id}`
+							)
+							.then((response) => {
+								setTrackValue({
+									value: response.data.id,
+									label: response.data.name,
+								});
+							});
+					} else if (
+						response.data.data.track_id !== "" &&
+						response.data.data.track_id === "NULL"
+					) {
+						setCheckboxStatus(true);
+					}
+				});
+		} else {
+			if (track !== "NULL" && track !== null) {
+				setTrackValue({
+					value: track.id,
+					label: track.name,
+				});
+			} else if (track === "NULL" || track === null) {
+				setCheckboxStatus(true);
+			}
 		}
 	}, [pathname]);
 
@@ -79,6 +112,37 @@ function TrackForm() {
 			setTrack(null);
 		}
 	}, [checkboxStatus]);
+
+	useEffect(() => {
+		let body: SpecialCampaignBody;
+		if (track !== null && track !== "NULL") {
+			body = {
+				id: Number(params.id),
+				campaign_data: {
+					track_id: track.id,
+					genres: ["NULL"],
+					package: "NULL",
+					start_date: "NULL",
+					region: "NULL",
+				},
+			};
+		} else if (track === "NULL") {
+			body = {
+				id: Number(params.id),
+				campaign_data: {
+					track_id: "NULL",
+					genres: ["NULL"],
+					package: "NULL",
+					start_date: "NULL",
+					region: "NULL",
+				},
+			};
+		}
+		axiosInstance
+			.post("update-campaign", body!)
+			.then((response) => {})
+			.catch((error) => console.error("update campaign error", error));
+	}, [track]);
 
 	//* Checkbox Handler
 	const checkboxOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
