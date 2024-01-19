@@ -16,6 +16,7 @@ function TrackForm() {
 
 	const pathname = usePathname();
 
+	const [storedCampaign, setStoredCampaign] = useState<SpecialCampaign>();
 	const [trackInput, setTrackInput] = useState<string | null>("");
 	const [trackResults, setTrackResults] = useState<TrackItem[] | null>(null);
 	const [checkboxStatus, setCheckboxStatus] = useState<boolean>(false);
@@ -35,6 +36,7 @@ function TrackForm() {
 			axiosInstance
 				.get<SpecialCampaign>(`get-campaign?id=${params.id}`)
 				.then((response) => {
+					setStoredCampaign(response.data);
 					if (
 						response.data.data.track_id !== "" &&
 						response.data.data.track_id !== "NULL"
@@ -120,10 +122,10 @@ function TrackForm() {
 				id: Number(params.id),
 				campaign_data: {
 					track_id: track.id,
-					genres: ["NULL"],
-					package: "NULL",
-					start_date: "NULL",
-					region: "NULL",
+					genres: storedCampaign?.data.genres!,
+					package: storedCampaign?.data.package!,
+					start_date: storedCampaign?.data.start_date!,
+					region: storedCampaign?.data.region!,
 				},
 			};
 		} else if (track === "NULL") {
