@@ -9,6 +9,9 @@ function NavigationForm() {
 	const { region } = useRegionStore();
 	const { genres } = useGenreeStore();
 
+	console.log("region", region);
+	console.log("genres", genres);
+
 	return (
 		<div className="flex flex-row justify-end mt-[2.6rem] gap-x-[0.63rem]">
 			<NavigationButton

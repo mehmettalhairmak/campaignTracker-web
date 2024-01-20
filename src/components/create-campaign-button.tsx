@@ -2,22 +2,20 @@
 
 import axiosInstance from "@/api";
 import { SpecialCampaign } from "@/models/SpecialCampaignModel";
-import useCampaignStore from "@/zustand/campaign";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function CreateCampaignButton() {
-	const { setSpecialCampaign } = useCampaignStore();
-
 	const router = useRouter();
 
 	return (
 		<button
 			onClick={() => {
+				console.log("create-campaign");
 				axiosInstance
 					.get<SpecialCampaign>("create-campaign")
 					.then((response) => {
-						setSpecialCampaign(response.data.data.id);
+						console.log("create-campaign response", response);
 						router.push(`/create-campaign/${response.data.data.id}/track`);
 					})
 					.catch((error) => console.error("create-campaign error", error));

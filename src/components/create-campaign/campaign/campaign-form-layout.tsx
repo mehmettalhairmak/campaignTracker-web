@@ -63,7 +63,7 @@ function CampaignFormLayout() {
 			);
 			setSelectedCampaignDate(highestPricedCampaignDate);
 		}
-	}, [totalCampaigns]);
+	}, [totalCampaignsDate]);
 
 	useEffect(() => {
 		if (selectedCampaign !== null) {

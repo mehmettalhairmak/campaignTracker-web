@@ -1,16 +1,17 @@
 import { create } from "zustand";
 
 type State = {
-	genres: string[] | null;
+	genres: { value: string; label: string }[] | null;
 };
 
 type Actions = {
-	setGenres: (qty: string[] | null) => void;
+	setGenres: (qty: { value: string; label: string }[] | null) => void;
 };
 
 const useGenreeStore = create<State & Actions>((set) => ({
 	genres: null,
-	setGenres: (qty: string[] | null) => set((state) => ({ genres: qty })),
+	setGenres: (qty: { value: string; label: string }[] | null) =>
+		set((state) => ({ genres: qty })),
 }));
 
 export default useGenreeStore;

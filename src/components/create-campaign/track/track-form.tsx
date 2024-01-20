@@ -7,16 +7,17 @@ import { TrackItem } from "@/models/TrackModel";
 import useTrackStore from "@/zustand/track";
 import { useParams, usePathname } from "next/navigation";
 import { SpecialCampaign } from "@/models/SpecialCampaignModel";
+import useCampaignStore from "@/zustand/campaign";
 
 function TrackForm() {
 	const { track, setTrack } = useTrackStore();
+	const { storedCampaign, setStoredCampaign } = useCampaignStore();
 
 	const pathname = usePathname();
 
 	const params = useParams();
 
 	const [initializeScreen, setInitializeScreen] = useState<boolean>(true);
-	const [storedCampaign, setStoredCampaign] = useState<SpecialCampaign>();
 	const [trackInput, setTrackInput] = useState<string>("");
 	const [trackOptions, setTrackOptions] = useState<
 		{ value: string; label: string }[]
@@ -84,9 +85,12 @@ function TrackForm() {
 
 				console.log("track", track);
 
-				axiosInstance.post("/update-campaign", body).then((response) => {
-					console.log("updated campaign", response.data);
-				});
+				axiosInstance
+					.post<SpecialCampaign>("/update-campaign", body)
+					.then((response) => {
+						console.log("updated campaign", response.data);
+						setStoredCampaign(response.data);
+					});
 			}
 		}
 	}, [setTrack, track, initializeScreen === false]);

@@ -1,8 +1,7 @@
 import React from "react";
 import CreateCampaignHeader from "@/components/create-campaign/header";
-import RegionForm from "@/components/create-campaign/detail/region-form";
-import TrackGenreeForm from "@/components/create-campaign/detail/track-genree-form";
 import NavigationForm from "@/components/create-campaign/detail/navigation-form";
+import DetailForm from "@/components/create-campaign/detail/detail-form";
 
 function Detail() {
 	return (
@@ -11,8 +10,8 @@ function Detail() {
 			<CreateCampaignHeader currentPage="Detaylar" />
 			<section className="flex flex-col items-center mt-[5.31rem] mx-[9.75rem]">
 				<div className="flex flex-col">
-					<RegionForm />
-					<TrackGenreeForm />
+					<DetailForm />
+
 					<NavigationForm />
 				</div>
 			</section>
