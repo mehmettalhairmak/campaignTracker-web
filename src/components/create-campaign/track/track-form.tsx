@@ -36,20 +36,12 @@ function TrackForm() {
 							flex: 1,
 						}),
 					}}
-					options={trackOptions}
-					value={trackValue}
-					inputValue={trackInput === null ? "" : trackInput}
-					isDisabled={checkboxStatus}
-					onChange={(value) => setTrackValue(value)}
-					onInputChange={(value) => setTrackInput(value)}
 					placeholder="Spotify'da ara"
 					className="self-stretch rounded-lg flex flex-row items-center justify-start py-[1rem]"
 				/>
 				<div className="flex flex-row items-center justify-start gap-[0.5rem] text-left text-gray-700">
 					<input
 						type="checkbox"
-						checked={checkboxStatus}
-						onChange={checkboxOnChange}
 						className="rounded bg-base-white box-border w-[1rem] h-[1rem] overflow-hidden shrink-0 border-[1px] border-solid border-gray-300"
 					/>
 					<div className="tracking-[-0.02em] leading-[1.25rem]">
