@@ -1,7 +1,7 @@
 export interface SpecialCampaign {
 	data: {
 		id: number;
-		track_id: "";
+		track_id: string | "";
 		genres: string[] | null;
 		region: string | null;
 		package: string | null;

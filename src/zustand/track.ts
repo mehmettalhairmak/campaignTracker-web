@@ -2,16 +2,16 @@ import { TrackItem } from "@/models/TrackModel";
 import { create } from "zustand";
 
 type State = {
-	track: TrackItem | "NULL" | null;
+	track: { value: string; label: string } | "NULL" | null;
 };
 
 type Actions = {
-	setTrack: (qty: TrackItem | "NULL" | null) => void;
+	setTrack: (qty: { value: string; label: string } | "NULL" | null) => void;
 };
 
 const useTrackStore = create<State & Actions>((set) => ({
 	track: null,
-	setTrack: (qty: TrackItem | "NULL" | null) =>
+	setTrack: (qty: { value: string; label: string } | "NULL" | null) =>
 		set((state) => ({ track: qty })),
 }));
 
