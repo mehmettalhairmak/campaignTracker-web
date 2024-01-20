@@ -25,7 +25,7 @@ function TrackForm() {
 
 	useEffect(() => {
 		axiosInstance
-			.get<SpecialCampaign>(`/get-campaign?id=${params.id as string}`)
+			.get<SpecialCampaign>(`get-campaign?id=${params.id as string}`)
 			.then((response) => {
 				setStoredCampaign(response.data);
 

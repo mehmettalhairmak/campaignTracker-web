@@ -10,46 +10,8 @@ import { AxiosResponse } from "axios";
 import React, { useEffect } from "react";
 
 function PaymentButton() {
-	const { track } = useTrackStore();
-	const { genres } = useGenreeStore();
-	const { region } = useRegionStore();
-	const { campaign, campaignDate, specialCampaign } = useCampaignStore();
-
 	const onClick = () => {
-		let body: SpecialCampaignBody;
-		if (track !== null && track !== "NULL") {
-			body = {
-				id: 67,
-				campaign_data: {
-					track_id: track.id,
-					genres: genres!,
-					package: campaign!.id,
-					start_date: campaignDate?.date_range[0]!,
-					region: region!,
-				},
-			};
-		} else if (track === "NULL") {
-			body = {
-				id: specialCampaign!,
-				campaign_data: {
-					track_id: "NULL",
-					genres: genres!,
-					package: campaign!.id,
-					start_date: campaignDate?.date_range[0]!,
-					region: region!,
-				},
-			};
-		}
-		axiosInstance
-			.post("update-campaign", body!)
-			.then((response) => {
-				axiosInstance
-					.get("get-campaign?id=" + response.data.data.id)
-					.then((response) => {
-						alert(JSON.stringify(response.data));
-					});
-			})
-			.catch((error) => console.error("update campaign error", error));
+		alert("Ödeme sayfasına yönlendiriliyorsunuz.");
 	};
 
 	return (

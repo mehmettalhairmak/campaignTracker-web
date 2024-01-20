@@ -1,11 +1,34 @@
 "use client";
 
+import axiosInstance from "@/api";
+import { SpecialCampaign } from "@/models/SpecialCampaignModel";
+import { TrackItem } from "@/models/TrackModel";
 import useTrackStore from "@/zustand/track";
 import Image from "next/image";
-import React from "react";
+import { useParams, usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 
 function OrderCard() {
-	const { track } = useTrackStore();
+	const pathname = usePathname();
+	const params = useParams();
+
+	const [track, setTrack] = React.useState<any>("NULL");
+
+	useEffect(() => {
+		axiosInstance
+			.get<SpecialCampaign>(`get-campaign?id=${params.id as string}`)
+			.then((response) => {
+				if (response.data.data.track_id !== "NULL") {
+					axiosInstance
+						.get<TrackItem>(`get-on-spotify?id=${response.data.data.track_id}`)
+						.then((responseTrack) => {
+							setTrack(responseTrack.data);
+						});
+				} else {
+					setTrack("NULL");
+				}
+			});
+	}, [pathname]);
 
 	if (track === "NULL") {
 		return <></>;

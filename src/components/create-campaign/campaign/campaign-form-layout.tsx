@@ -11,7 +11,6 @@ import { useParams, usePathname } from "next/navigation";
 import { SpecialCampaign } from "@/models/SpecialCampaignModel";
 
 function CampaignFormLayout() {
-	const { region } = useRegionStore();
 	const { storedCampaign, setStoredCampaign } = useCampaignStore();
 
 	const pathname = usePathname();
@@ -20,7 +19,6 @@ function CampaignFormLayout() {
 
 	const { setCampaign, section, setCampaignDate } = useCampaignStore();
 
-	const [initializeScreen, setInitializeScreen] = useState<boolean>(true);
 	const [totalCampaigns, setTotalCampaigns] = useState<Campaign[]>([]);
 	const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
 		null
