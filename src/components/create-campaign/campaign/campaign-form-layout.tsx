@@ -7,11 +7,20 @@ import axiosInstance from "@/api";
 import useRegionStore from "@/zustand/region";
 import { Campaign, CampaignDate } from "@/models/CampaignModel";
 import useCampaignStore from "@/zustand/campaign";
+import { useParams, usePathname } from "next/navigation";
+import { SpecialCampaign } from "@/models/SpecialCampaignModel";
 
 function CampaignFormLayout() {
 	const { region } = useRegionStore();
+	const { storedCampaign, setStoredCampaign } = useCampaignStore();
+
+	const pathname = usePathname();
+
+	const params = useParams();
+
 	const { setCampaign, section, setCampaignDate } = useCampaignStore();
 
+	const [initializeScreen, setInitializeScreen] = useState<boolean>(true);
 	const [totalCampaigns, setTotalCampaigns] = useState<Campaign[]>([]);
 	const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
 		null
@@ -24,26 +33,32 @@ function CampaignFormLayout() {
 		useState<CampaignDate | null>(null);
 
 	useEffect(() => {
-		axiosInstance.get<Campaign[]>("get-packages").then((response) => {
-			const filteredData = response.data.filter(
-				(item) => item.currency === region
-			);
-			setTotalCampaigns(filteredData);
-		});
+		axiosInstance
+			.get<SpecialCampaign>(`/get-campaign?id=${params.id as string}`)
+			.then((response) => {
+				setStoredCampaign(response.data);
 
-		axiosInstance.get<CampaignDate[]>("get-dates").then((response) => {
-			const filteredData = response.data.filter(
-				(item) => item.currency === region
-			);
+				axiosInstance
+					.get<Campaign[]>("get-packages")
+					.then((responsePackages) => {
+						const filteredData = responsePackages.data.filter(
+							(item) => item.currency === response.data.data.region
+						);
+						setTotalCampaigns(filteredData);
+					});
 
-			setTotalCampaignsDate(filteredData);
-		});
+				axiosInstance.get<CampaignDate[]>("get-dates").then((responseDates) => {
+					const filteredData = responseDates.data.filter(
+						(item) => item.currency === response.data.data.region
+					);
 
-		return () => {
-			setTotalCampaigns([]);
-			setSelectedCampaign(null);
-		};
-	}, []);
+					setTotalCampaignsDate(filteredData);
+				});
+			})
+			.catch((err) => {
+				console.error("get stored campaign error on track-form", err);
+			});
+	}, [pathname]);
 
 	useEffect(() => {
 		if (totalCampaigns.length > 0) {
@@ -68,18 +83,41 @@ function CampaignFormLayout() {
 	useEffect(() => {
 		if (selectedCampaign !== null) {
 			setCampaign(selectedCampaign);
+
+			if (selectedCampaignDate !== null) {
+				setCampaignDate(selectedCampaignDate);
+			} else {
+				setCampaignDate(null);
+			}
+
+			const body = {
+				id: storedCampaign?.data.id,
+				campaign_data: {
+					track_id: storedCampaign?.data.track_id,
+					genres: storedCampaign?.data.genres,
+					region: storedCampaign?.data.region,
+					package: selectedCampaign.id,
+					start_date:
+						selectedCampaignDate !== null
+							? selectedCampaignDate?.date_range[0]
+							: "NULL",
+				},
+			};
+
+			console.log(body);
+
+			console.log("campaign", selectedCampaign);
+
+			axiosInstance
+				.post<SpecialCampaign>("/update-campaign", body)
+				.then((response) => {
+					console.log("updated campaign", response.data);
+					setStoredCampaign(response.data);
+				});
 		} else {
 			setCampaign(null);
 		}
-	}, [selectedCampaign]);
-
-	useEffect(() => {
-		if (selectedCampaignDate !== null) {
-			setCampaignDate(selectedCampaignDate);
-		} else {
-			setCampaignDate(null);
-		}
-	}, [selectedCampaignDate]);
+	}, [selectedCampaign, selectedCampaignDate]);
 
 	if (section === "campaign_select") {
 		return (
