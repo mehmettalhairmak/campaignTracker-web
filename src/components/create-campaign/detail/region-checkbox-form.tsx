@@ -1,7 +1,9 @@
 "use client";
 
+import axiosInstance from "@/api";
+import { SpecialCampaign } from "@/models/SpecialCampaignModel";
 import useRegionStore from "@/zustand/region";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function RegionCheckboxForm() {
@@ -9,38 +11,82 @@ function RegionCheckboxForm() {
 
 	const pathname = usePathname();
 
+	const params = useParams();
+
+	const [initializeScreen, setInitializeScreen] = useState<boolean>(true);
+	const [storedCampaign, setStoredCampaign] = useState<SpecialCampaign>();
 	const [trCheckboxStatus, setTrCheckboxStatus] = useState<boolean>(false);
 	const [usCheckboxStatus, setUsCheckboxStatus] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (region === "TRY") {
-			setTrCheckboxStatus(true);
-		} else if (region === "USD") {
-			setUsCheckboxStatus(true);
-		}
+		axiosInstance
+			.get<SpecialCampaign>(`/get-campaign?id=${params.id as string}`)
+			.then((response) => {
+				setStoredCampaign(response.data);
+				if (initializeScreen) {
+					if (response.data.data.region === "TRY") {
+						setTrCheckboxStatus(true);
+					} else if (response.data.data.region === "USD") {
+						setUsCheckboxStatus(true);
+					} else {
+						setTrCheckboxStatus(false);
+						setUsCheckboxStatus(false);
+					}
+				}
+			})
+			.catch((err) => {
+				console.error("get stored campaign error on track-form", err);
+			});
 	}, [pathname]);
 
 	useEffect(() => {
-		if (trCheckboxStatus) {
-			setRegion("TRY");
-		} else if (usCheckboxStatus) {
-			setRegion("USD");
-		} else {
-			setRegion(null);
+		if (initializeScreen === false) {
+			if (trCheckboxStatus) {
+				setRegion("TRY");
+			} else if (usCheckboxStatus) {
+				setRegion("USD");
+			} else {
+				setRegion(null);
+			}
 		}
-	}, [trCheckboxStatus, usCheckboxStatus]);
+	}, [trCheckboxStatus, usCheckboxStatus, initializeScreen === false]);
+
+	useEffect(() => {
+		if (initializeScreen === false) {
+			if (region !== null) {
+				const body = {
+					id: storedCampaign?.data.id,
+					campaign_data: {
+						track_id: storedCampaign?.data.track_id,
+						genres: storedCampaign?.data.genres,
+						region: region,
+						package: storedCampaign?.data.package,
+						start_date: storedCampaign?.data.start_date,
+					},
+				};
+
+				console.log(body);
+
+				console.log("region", region);
+
+				axiosInstance.post("/update-campaign", body).then((response) => {
+					console.log("updated campaign", response.data);
+				});
+			}
+		}
+	}, [region]);
 
 	const trCheckboxOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInitializeScreen(false);
 		setTrCheckboxStatus(e.target.checked);
-
 		if (e.target.checked) {
 			setUsCheckboxStatus(false);
 		}
 	};
 
 	const usCheckboxOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInitializeScreen(false);
 		setUsCheckboxStatus(e.target.checked);
-
 		if (e.target.checked) {
 			setTrCheckboxStatus(false);
 		}
